@@ -31,3 +31,4 @@ Firebase Hosting + Google Cloud Storage - Provides SSL so that HTTPS Serving is 
 It is still pretty basic and we are yet to have a fully functional web app
 
 Q - If you would like to control Load Balancing of an Web App, would we go for IAAS, PAAS or SAAS
+This is a typical IAAS scenario, which is Google Compute Engine in this case. We can setup OS, Select Hardware. From Configuration to management all is on us. This is like setting up an on-premise system, the only difference being absolutely no need for buying the hardware or installing os/languages. This is required we want to control the load balancing and scaling for our Web Application.

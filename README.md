@@ -61,3 +61,12 @@ So it's better to use the Infra as a Service
 
 # Creating a Virtual Machine Instance
 Q - What factors would you like to take into account when you instantiate a compute engine
+
+## Zones
+1. They are geographical locations
+2. An instace is billed differently based on the zone it is situated in
+3. If most of your traffic comes from South East Asia, you won't want your request to go all the way to America
+4. Also if you are a part of a Govt organisation, there may be a security concern placing the data in a different country
+5. Some zones are more expensive than the others, based on the resource availabilty
+
+Factors to consider while you instantiate a VM - OS, Hard Disk, Processor based on Computation that needs to be performed on it. Zones and Https/~~access to APIs/SSH~~

@@ -29,3 +29,5 @@ Then we use Google Cloud Storage. Cloud storage is static immutable storage opti
 Hosting a website - SSL, CDN, HTTPS Serving, Still Quite static, but rich
 Firebase Hosting + Google Cloud Storage - Provides SSL so that HTTPS Serving is possible, ~~CDN~~ Edges over the World, and ~~Atomic Deployment~~ and ~~One click rollback~~. Basically a Google Storage ++
 It is still pretty basic and we are yet to have a fully functional web app
+
+Q - If you would like to control Load Balancing of an Web App, would we go for IAAS, PAAS or SAAS

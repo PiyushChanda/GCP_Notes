@@ -218,3 +218,7 @@ Google Container Builder - can pull source code from anywhere - cloud storage to
 
 Autoscaling - Pretty easy. Just spin up an instance when the pods become slow to respond. Drop instances once the pods are no longer needed. - Cluster Autoscaler
 
+Pod is a virtual thing - Just remember pod can have a whole website backend in it. It might have a mysql container and and worpress container. In total they create a backbone of a website
+
+A node instance can have multiple pods, and the master kubernetes manages these pods accross the cluster of node instances.
+

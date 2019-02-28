@@ -195,7 +195,12 @@ To have a persistent storage, we have an abrstraction of a Persisten Storage in 
 
 Network balancing works out of the box, but HTTP load balancing is difficult to achieve. We need to do interfaces of our own with Compute Engine Load Balancing Infrastructure
 
+GCE - Compute
+GKE - Kubernetes
+Kubernetes - > Kubelets - > Individual Containers
+-> Means 'inside those'
 
+Kubernets is the orchestrator. It controls the Kubelets which in trun control the pods. The pods share the same resources and groups a bunch of containers. Pod may have the same ip address, or share disk volumes. Configured by json or yaml.
 
-
+So the instances are the a group of VM instances each of which are running kubernetes
 

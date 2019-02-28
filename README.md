@@ -204,3 +204,17 @@ Kubernets is the orchestrator. It controls the Kubelets which in trun control th
 
 So the instances are the a group of VM instances each of which are running kubernetes
 
+So, the thing is.
+These are just VM instances running Kubernets
+There is one master, having a Kubernetes server, auto scalng and handling requests through REST Apis and manage communication as such.
+
+Another type of VM is the Node instance. It has a kubelet that manages the docker runtime and runs the containers that are scheduled on that instance.
+
+~~Node Pool~~ - Subset of similarly configured machines. Each node pool can run a different version of Kubernetes.
+
+Kubernetes Registry - Like Docker registry. Can push/pull docker images
+
+Google Container Builder - can pull source code from anywhere - cloud storage too - and simply create an artifact like container image . java archive. Docker can be configured to authenticate directly with the container registry.
+
+Autoscaling - Pretty easy. Just spin up an instance when the pods become slow to respond. Drop instances once the pods are no longer needed. - Cluster Autoscaler
+

@@ -140,3 +140,25 @@ If we now try to SSH a VM that is currently not on the default zone the ssh will
 ###### ssh to a vm instance
 gcloud compute ssh <vm-name>
 this instance must be in the same zone as the default zone set in the console.
+  
+Q - What is the necessary conditions before I attach a persistent disk to my VM, necessary condition under which a persistent disk has to be created before it can be attached to a VM
+A - They need to be in the same zone
+###### Create a Disk
+gcloud compute disks create test-disk --size=100GB --zone us-central1-f
+We need to make sure that the persisten disk resides in the same zone as the VM. We cannot connect a VM with a persistent disk that resides in a completely different zone. The IO requirement necessary won't be possible if the VM Instance and the Persistent Disks remain in completely different zone. Make the disk atleast 200 GB for optmial read/write speeds
+
+We need to format this disk before use.
+
+We can add this Newly created Disk in the settings of the VM Console. Just select the disk under additional storage menu.
+
+Also, we can use the gcloud command line tool
+gcloud compute instances attach-disk test-instance --disk test-disk --zone us-central1-f
+
+We can go into the setting page, to see whether the disk has really been attached.
+
+To get all the hardisk associated with the specific vm, run
+ls -l /dev/disk/by-id/
+
+
+
+

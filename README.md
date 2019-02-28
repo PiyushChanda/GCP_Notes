@@ -71,7 +71,8 @@ Q - What factors would you like to take into account when you instantiate a comp
 
 Factors to consider while you instantiate a VM - OS, Hard Disk, Processor based on Computation that needs to be performed on it. Zones and Https/~~access to APIs/SSH~~
 
-# If you do decide to use a pre-emptiblr VM, what precautions would you take
+# More GCE
+Q - If you do decide to use a pre-emptible VM, what precautions would you take?
 Pre-emptible Vm are the VMs that can be shut down by the GCP at any time within a 30 seconds notice.
 They are available with fraction of the cost of the regular machine types.
 Our program must be fault tolerant and mostly we should have a shutdown scipt that must run within 30 seconds and that too gracefully. Is shut down atleast once in 24hrs. Probability of termincation depends on Zone/Availability/Day/Maintenance/Migration
@@ -100,3 +101,42 @@ Each VM Instance must belong to a project. A project can have any number of inst
 A project can have 5 Virtual Private Cloud.
 Instances within a VPC communicate using lan, Instances accross VPC communicate using the Internet - VPN.
 A VM Instance belongs to exactly one of these VPCs.
+
+Q - What would you do if google shuts down your instance for Maintenance.
+# Editing a VM Instance
+Compute Instances - 
+
+1. Setting to delete the boot disk once the instance is deleted
+2. Setting to convert it to Pre emptible
+3. Setting to automatically restart, that is, if the vm is terminated, it will automatically restart
+4. If the instance is brought down by google for maintenance, then we can choose to migrate the VM to another machine. This is the recommended setting. We can shutdown altogether if we don't want to migrate.
+5. Service account - A common account. Will study in much more detail
+
+Setting - Stop the Vm. Change the machine type, and start the instance.
+Note: We can't change the zone once the instance has been created
+We can add additional hard disk for use.
+We can set up the access for each of our Cloud APIs. We can give the access to all the APIs or more granularly select the APIs that we want to access though out VM Instance.
+
+Q - How would you spin up multiple VMs repeatedly.
+A - We can use the command line console provided by google to create automated scipts. The command can be copied from the google console, once we have configured the VM Instance just the way we want to.
+
+Setting while spinning up a VM  - 
+Labels (Under the management section is the create VM Instance Page under Google Compute Engine) - We can add labels to logically group some resources. In the billing page we can see the billing details/usage patterns of those resources associated with the specific label.
+
+We can get an equivalent gcloud command to spin up a VM with the exact same configuration as specified in the Console.
+This way we can spin up multiple customized VMs repeatedly.
+
+## Command to create instance
+###### create a new instance
+gcloud compute instances create another-instance --zone us-central1-a
+###### help for quick lookup
+gcloud compute instances create --help
+###### change zone
+gcloud config set compute/zone us-central1-c
+All new instances will be created in this zone
+
+If we now try to SSH a VM that is currently not on the default zone the ssh will fail. Thus we would need to change the default zone parameter, or specify the zone in the ssh command.
+
+###### ssh to a vm instance
+gcloud compute ssh <vm-name>
+this instance must be in the same zone as the default zone set in the console.

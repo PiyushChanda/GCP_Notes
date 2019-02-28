@@ -60,7 +60,7 @@ There are Load Balancing in Plaform as a Service - Like ~~Heroku~~. But we won't
 So it's better to use the Infra as a Service
 
 # Creating a Virtual Machine Instance
-Q - What factors would you like to take into account when you instantiate a compute engine
+Q - What factors would you like to take into account when you instantiate a compute engine VM
 
 ## Zones
 1. They are geographical locations
@@ -70,3 +70,33 @@ Q - What factors would you like to take into account when you instantiate a comp
 5. Some zones are more expensive than the others, based on the resource availabilty
 
 Factors to consider while you instantiate a VM - OS, Hard Disk, Processor based on Computation that needs to be performed on it. Zones and Https/~~access to APIs/SSH~~
+
+# If you do decide to use a pre-emptiblr VM, what precautions would you take
+Pre-emptible Vm are the VMs that can be shut down by the GCP at any time within a 30 seconds notice.
+They are available with fraction of the cost of the regular machine types.
+Our program must be fault tolerant and mostly we should have a shutdown scipt that must run within 30 seconds and that too gracefully. Is shut down atleast once in 24hrs. Probability of termincation depends on Zone/Availability/Day/Maintenance/Migration
+
+## Preemptible Instance - How it works
+Step 1 - Sends a soft off signal
+Step 2 - The machine has 30 seconds to run the shutdown script and cleanup gracefully and give up control.
+Step 3 - If not, the compute engine gives a mechanical shutdown signal and the machine is transitions to terminated state
+We must have a well written shutdown script and we have to assossiate the vm instance to this shutdown script using console or any other administrative option.
+Do specify whatever cleanup operation you would require in the shutdown script and make sure that it runs gracefully within 30 secs
+## Storage Options
+Every VM comes with small root disk. We can select additional Storage from menu.
+1. Persistent Disks - Hard Disk and SSD / Are redundant
+2. Local SSD - Non redundant but fast
+3. Cloud Storage - Cheap blob storage
+
+GCE Uses stackdriver for logging and monitoring
+
+Choices that we need to take care before spinning up a VM instance
+1. OS - Linux/Windows/Any custom OS that you have written
+2. In virtual machine instance, we have full root access and ssh capability
+3. Zone - Zone affects billing
+4. Machine Types - Standard, High-Mem, High-CPU, Shared-core ( for small, resource intensive tasks ). We can attach GPU dies to most machine types
+
+Each VM Instance must belong to a project. A project can have any number of instances.
+A project can have 5 Virtual Private Cloud.
+Instances within a VPC communicate using lan, Instances accross VPC communicate using the Internet - VPN.
+A VM Instance belongs to exactly one of these VPCs.

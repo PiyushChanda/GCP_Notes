@@ -158,6 +158,43 @@ We can go into the setting page, to see whether the disk has really been attache
 
 To get all the hardisk associated with the specific vm, run
 ls -l /dev/disk/by-id/
+# Google Kubernetes
+Q - A VM is more lightweight than a docker container? True or False
+
+GCE - Infra as a Service
+
+Definition of a container - A container is a lightweight executable package of a piece of software which contains everything the code needs to run, for eg - libraries, system files etc.
+
+So a container has it's own little env isolated from one another. It doesn't have a guest os. Unlike VM, which has a guest OS, with a virtualisation monitor such as Hypervisor.
+
+Docker Containers -> Docker -> Host OS -> Infra
+VM Image -> Guest OS -> Hypervisor -> Infra
+
+Docker containers are lightweight VMs
+Containers can run in a cluster mode. A master node which runs Kubernetes, monitors the worker nodes, called Node Instance. The worker nodes communicate with the master node known through Kubelet, and also run a bunch of containers. The node instances has a kubelet and a pod. Inside each pod runs a bunch of containers
+
+So VM has a full OS, which communicates with the Hypervisor, but in case of Container, we virtualise the OS, the Docker acts as a proxy between container and the OS
+
+Advantages - 
+Componentization/Micro-Service
+Portability
+Rapid Deployment
+
+A bunch of containers can be encapsulated using a container registry - Google Container Registry
+
+Reduction of Orchestration - Using config files
+Regstry mechanism - pull and pish image to the registry
+App Engine can seamless interact with Containers and App Engine VMs
+
+# More GKE
+Q - Scaling a container engine is hard work. only use app-engine for auto scaling. True or False?
+
+We had persistent disks in VM. Each VM comes with its persistent disk that is attached to it as long as the instance is present. Even if we detach the disk and attach it with a different instance, the data is going the be there. But we have something different in case of containers. We have a type of attached disk, that has ephemeral storage, i.e. the data is lost when the container restarts.
+
+To have a persistent storage, we have an abrstraction of a Persisten Storage in the form of GcePersistentDisk. To have the data non-ephemeral.
+
+Network balancing works out of the box, but HTTP load balancing is difficult to achieve. We need to do interfaces of our own with Compute Engine Load Balancing Infrastructure
+
 
 
 

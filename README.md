@@ -222,3 +222,48 @@ Pod is a virtual thing - Just remember pod can have a whole website backend in i
 
 A node instance can have multiple pods, and the master kubernetes manages these pods accross the cluster of node instances.
 
+What do you need to do to expose your pod to external traffic?
+
+Let's set up default zone/region before we set up our container cluster
+gcloud config set compute/zone us-central1-a
+gcloud config set compute/region us-central1
+
+to create cluster-kubernetes we use the following command line
+gcloud containers cluster create my-first-cluster --num-nodes 1
+This cluster will be set up in default project/zone and region specified
+
+we can use gcloud compute instances list to see the clusters/vm instances since they are Vm instances in themselves
+gcloud compute instances list
+
+###### Install and run a docker image in the cluster
+kubectl run wordpress --image=tutum/wordpress --port=80
+here 'wordpress' is a deployment name. 
+Output message - Deployment 'wordpress' created
+
+We have created a pod. Pod is a group of containers. currently we have just one container in the pod. 
+
+kubectl get pods
+output = name {pod_name} , status {running/creating}
+
+kubectl expose pod {container_name} --name=wordpress --type=LoadBalancer
+This pod by default is visible to other machines in the cluster. We don't want only the cluster machines to access the website, so we expose the pod to external traffic. 
+The name that want to specify for our container. Or the service name
+LoadBalancer creates an external ip that the container can use to accept external traffic.
+
+kubectl expose - creates the service, the forwarding rules for the load balancer and the firewall rules for the external traffic to be sent to the pod.
+
+we use the name of the service 'wordpress' in this case to get the information regarding the service
+kubectl describe services <service name>
+  or
+kubectl describe services wordpress
+
+Load Balancer will have an ingress ip address - 
+We can see in the Compute Engine/VM Instances page the graph has a spike in terms of usage. Since we deployed a container and attached a load balancer to it, the cpu-usage increased
+We need to run a command to expose the pod to the internet. This will do the work of exposing the container and directing external traffic to the pod.
+
+# App Engine
+Does the App engine standard envrionment support os customization?
+
+
+
+

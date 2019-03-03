@@ -262,8 +262,40 @@ We can see in the Compute Engine/VM Instances page the graph has a spike in term
 We need to run a command to expose the pod to the internet. This will do the work of exposing the container and directing external traffic to the pod.
 
 # App Engine
-Does the App engine standard envrionment support os customization?
+Does the App engine standard envrionment support os customization? - No
 
+So If the Web App becomes too complicated, then we may decide to skip all the nitty gritty details and just write code in 3rd party web development tools like Heroku or Engine Yard.
 
+Google's equivalent of this is Google App Engine. We can write a pretty complex Web App using this. We just write the code, rest is taken care by Google.
 
+They are also called App Engine Environment, since they are serverless
 
+There are two types of Environment in Google App Engine.
+1. Standard - Preconfigured Go, PHP, Python 2.x, Java 7, We can't change a thing
+2. Flexible - More Choices - Java 8, Python 2.x, .Net, A range of choices.
+
+Standard is Fixed. Flexible can be customised.
+Standard is a container. Flexible is a VM Instance.
+
+Characteristic -
+1. Serverless
+2. Something called Instance Classes determine Prices/Billing
+3. Laundry list of services, pay for what you use
+
+## Standard Environment
+Based on Container Environment Based on Google's Infrastructure. Preconfigured with several available runtimes Python 2.x, Go, PHP. Also each of the envionment includes libraries to support App Engine API. Really all you need, sometimes. Application runs in a secure sandboxed environment, independent of Hardware, OS or Physical Location of the server. App Engine standard environment distributes the requests accross multiple servers, and scaling servers to meet the traffic demand.
+
+## Flexible Environement
+Vm of a Compute Instance. Specify your own docker images which can contain the runtime environments, and also the image of the OS that we are going to use.
+
+## Cloud Functions
+1. Serverless Execution Environemnt for building and connecting cloud environment
+2. write single simple purpose functions
+3. Attach these events emitted from cloud infrastructure and services
+4. When the event watched, the specific cloud function will be fired.
+5. Code runs in fully managed environment
+6. No need to provision any infra or manage any servers
+7. written in javascript
+8. Run it in any standard node.js runtime
+
+Q - What would you do if your app needs gpu support

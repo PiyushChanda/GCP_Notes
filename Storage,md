@@ -24,3 +24,94 @@ Analytics and Data Warehousing applications that run on HIVE. simply called OLAP
 Storage for Compute for Block storage and with mobile sdks | Cloud storage with firebase
 Fast Random access with mobile sdk | Firebase reatime DB
 
+Q - Match the following
+I Hive a.Datastore
+II HBase b.BigTable
+III MongoDB c.BigQuery
+
+A -
+I Hive c. BigQuery
+II HBase b. BigTable
+III MongoDB a.DataStore
+
+Block storage - Refers to data stored in cylinders of some other physical forms that is one level lower in granularity than File Storage
+Files are decomposed into blocks. Unstructured data.
+1. Lowest data storage
+2. No Abstraction at all
+3. Meant for VMs, for cpus doing low level io access
+4. The block location must be tied to VMs
+
+Options Available 
+1. Persistent Disks - Standard or SSD - Speed for random access, for sequential access, however, the standard disks are not that bad
+2. Local SSD - 3 TB - Attached to a particular VM
+
+Cloud Storage - 
+1. creates buckets to store data
+2. Buckets are globally unique, globally unique, similar to DNS rules.
+3. Also locations and storage classes
+
+Bucket storage classes
+1. Multi regional - for frequent access from all over the world
+2. Regional - for frequent access from a particular region
+3. Nearline - accessed once a month, have minimum storage duration commitments, and are subtantially cheaper than regional or multi-regional storage, can be very expensive for accessing your data
+4. Coldline - accessed once a year, other things are similar to NearLine
+
+In the real world, we have hdfs, in the gcp, we use cloud storage, as hdfs requires an always running namenode which would unnecessarily add to the cost, even when all we need is blob storage
+Cloud storage doesnot require a central managing namenaode.
+Even in hadoop cluster/data proc, we make use of the cloud storage rather than the hdfs.
+
+SQL Interfaces for file data - BigQuery, we need to have an sql like interface over the top of a file, because we might require
+a ton of analytics solutions on the top of files and the BI People know to write SQL. BigQuery is like Hive, semantically atleast.
+
+Differences -
+1. It is faster than hive, lower latency than hive, as it relies on a columnar data storage format.
+We can atleast think about using hive for low latency real-time processing. We cannot even think of using hive for low-latency
+real time processing
+Latency is a bit higher than Big Table, Data Store - prefer them for low latency
+2. No ACID Properties of Database, so never use it for OLTP, Atomicity, Consistency, Isolation, Durability, consists of an all or nothing unit
+3. Great for OLAP/Business Intelligence/Data Warehouesing
+4. OLTP Requires strict write consistency, OLAP Doesnot.
+5. Use cases similar to hive, sql-like abstraction for Non-relational data, unlike hive, doesnot rely on hdfs
+
+Transaction Processing/Transaction Support - 
+Cloud SQL
+Cloud Spanner
+1. Structured data, constraints
+2. ACID Properties - used for transaction processing. Both of them supprt ACID properties, but the cloud spanner supports something
+of a ACID++ support.
+3. Too slow or too many checks for analytics/BI Ware househing (OLAP)
+4. OLTP require strict write consistency, OLAP doesnot
+
+So if your data is really big or not really structured, then use big-query otherwise, small, super structured, use cloud-sql/spanner-sql
+
+Spanner SQL is proprietory and more advanced than cloud sql
+Cloud Spanner offeres "horizontal scaling" - i.e. more data, more instances, replication etc. Between bigdata and mysql-rdbms
+
+Cloud Spanner under the hood has a pretty suprising structure. We will discuss it later.
+
+OLAP and OLTP have sql on their core, let's move on to mysql database
+
+Document Storage using Datastore -  Mongo DB or Couch DB
+xml/html
+Hierarchical tree like relationsships, as well as a great deal of latitude on what data is embedded in what nodes.
+At heart, they are key-value structures.
+key-value structure, Not a single key column
+
+It is not used for OTLP or OLAP, it is used when we require a fast lookup on a bunch of keys.
+Speciality of Datastore is that the speed of query execution depends on the size of the returned set, and not on the size of underlying dataset.
+It is all about very fast hash based indices
+So for needle in the heystack like searches or lookup for non-sequential keys, Indices are fast to read, slow to write
+So don't use for write intensive data.
+
+It offers fairly decent transaction support. as it needs to write and get things quite right.
+Better transaction options than other storage options we have been discussing.
+
+NoSQL - Columnar data storage BigTable - HBase
+When we require scanning of sequential key-values.
+Columnar Datastore - good for Sparse Data
+Data is sorted on keyvalue and sorted in lexicographically similar values of the keys are stored adjacent to each other.
+Sensetive to hotspoting. If we chose increasing numerical column as our key, then it would kill the performance of Big Table as
+any read/write operation would hit the same shard of data. We need to be careful while designing the key-structure.
+Bigtable is Similar to HBase, somehow smarter than HBase.
+
+

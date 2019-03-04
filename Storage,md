@@ -1,0 +1,26 @@
+# Storage Options
+Q - Databases are abstractions on File Storage, File Storage are abstractions on __ storage?
+A - File Storage is an abstraction over Block storage, in Block storage, we indentify a file by it's physical hardware address.
+In File Storage, we indentify a file, by a clear heirarchical directory structure.
+
+Block Storage for compute VMs - presistent Disks or SSDs
+Immutable Blobs like Video/Media/Image - Cloud Storage
+OLTP - Cloud SQL - Open Source MySQL/Postgre SQL or Cloud Spanner -Complicated and Google's Proprietery
+NoSQL Documents - HTML/XML Called - Datastore
+Columnar Data Storge - NoSQL key-value store similar HBase or BigTable
+Getting data into cloud storage - Transfer Service
+
+When You Need | What you use | GCP Counterpart
+Storage for compute/block storage | Hard Disks/SSDs | Persistent Disk (Hard Disk, SSD), Also Local SSD
+Storing Media/Blocks which are not very mutable | file system - HDFS | Cloud Storage, rather than hdfs - hdfs require running NameNode
+SQL Interface Atop a data file | Hive (SQL Like - but mapreduce running on HDFS) | Semanitcally, BigQuery is similar to Hive, Underlying implementation is different. BigQuery is Columnar, Hive is a mapreduce abstraction
+Documents, NoSQL | Extremely Hierarchical Datasets - HTML File/XML File | CouchDB, MongoDB - KeyValue/Indexed Databases, we have a bunch of keys for every document. Single Key - Reddis | Datatore, blazing fast read, scales with the size of the document, is based on indexes on every column
+Columnar Store, NoSQL | HBase for fast scanning, Cassandra, rows stored in lexicographical order of particular key value. Optmised for looking up row-keys | Big Table is HBase, fast sequential scanning of key-values
+large no. of sequential key-values
+OLTP | RDBMs, can we improve the storage, taking into account the heirarchical documents. | cloud sql - open, cloud spanner - proprietory, optmizations under the hood, really strong asset gurantees
+Analytics and Data Warehousing applications that run on HIVE. simply called OLAP applications. | Hive | Big Query - already referred to
+
+** Mobile Specific **
+Storage for Compute for Block storage and with mobile sdks | Cloud storage with firebase
+Fast Random access with mobile sdk | Firebase reatime DB
+

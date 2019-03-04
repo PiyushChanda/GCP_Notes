@@ -184,6 +184,15 @@ For mobile developers.
 2. Firebase Realtime DB. Fast No SQL json based document database that helps with fast random access along with mobile sdks.
 Syncs data with all the clients in realtime, and is available even when your app goes offline.
 
+Three Lines - Gcloud Menu - Browser, all the buckets reside here
+Since they are globally unique, you can prefix your names with project prefix/organisation prefix.
+Buckets are standalone, they are not tied to a compute instance, container or App Engine projects
+The data we store in the bucket are called objects.
+ - Simply use the create button to create a bucket, choose regional class and a region, and finally click 'upload' to upload the data to the bucket.
+ - Every object has a storage class assossiated with it. An object can have a class assossiated with it.
+ - The uploaded image can have 'near-line' or 'cold-line' class, but not 'multi-regional'
+ - The objects by default take up the storage classes of the bucket. The storage class of a bucket can be changed, but the objects retain the storage classes that they have
+ - If we are not using the resource, or the bucket, simply delete it to avoid unnecessary costs
 
 
 

@@ -299,3 +299,29 @@ Vm of a Compute Instance. Specify your own docker images which can contain the r
 8. Run it in any standard node.js runtime
 
 Q - What would you do if your app needs gpu support
+
+App Engine - PAAS, Zero Ops serverless platform, High Availability is Important to us, and no need to manage the the Instances going up and down. Consider this option when you want to write code and never touch a server cluster or infrastructure. If you don't know or care what os you are running on, go for app engine. For Mobile App, and gaming backends. If your app makes use of restful api's go for App Engine. Can be used for IOT
+
+Kubernetes Engine - Somewhere in the Middle, It abstracts away most of the Dev Ops stuff, we don't need to manage the individual clusters but we do still need to work with the Kubernetes Engine. You want speedy deployment, and separate the app from the OS, go for containers. Also improves the operability dramatically by separating the app from the OS. If you don't have any dependency on a specific OS, go for Container Engine. Code running on premise to run on cloud as is, go for KE. Also can be used when you have Cloud-Native Distributed systems and Hybrid applications
+
+Compute Engine - IAAS, These run on Google's data center. Very Fine grain control over the infrastructure, like gpus and ssds, go for Compute Engine. If you have OS level choices to make, like networking or graphics drivers, go for Google's compute engine. If your code is already running in a VM, or the code is running on-premise and you want to migrate it to coud without any changes to the code, or maybe your code cannot be containerized easily, go for Compute Engine.
+
+Also, there is always a possibility of Mix and Match.
+
+1. You can use the App Engine as a Front End, and use a data storage like redis on a compute engine for the back end.
+2. Use container engine for a rendering microservice that uses Compute Engine VM's do do the actual frame rendering.
+3. Use App Engine as the Front End, Cloud SQL as your database, and Container Engine for your Big Data processing - if you want to run the processing using Hive, rather than using Big Query, so you use Containers.
+
+App Engine - PAAS, Serverless and Ops Free
+Google Compute Engine - IAAS Option, fully customizable down to the OS
+Google Kubernetes Engine Lies in between - running Kubernetes and hosting containers
+You can mix and match according to your needs.
+
+So if we need any specific HardWare feature like GPU's, go for a compute Engine VM.
+
+
+
+
+
+
+

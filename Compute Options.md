@@ -320,6 +320,68 @@ You can mix and match according to your needs.
 So if we need any specific HardWare feature like GPU's, go for a compute Engine VM.
 
 
+## Lab
+Q - How many VM instance do need to run a single App Engine Application.
+
+1. Create a python application, 
+2. Run it locally,
+3. Deploy it in the Google Cloud Engine.
+
+gcloud config set compute/region us-central1
+gcloud config set compute/zone us-central1-a
+
+gloud shell's instance are ephemeral, settings might change, 
+
+We created a single python hosted website, wrote a yaml to specify the deployement parameters, and runtimes required. We at first deployed the app in local, and then deployed it to app engine.
+:: my_first_app.py
+import webapp2
+class HomePage(webapp2.RequestHandler):
+  def get(self):
+    self.response.headers['Content-Type'] = 'text/html'
+    self.response.write('<h3>Hello World!</h3><p>This is so exciting</p>')
+
+app = webapp2.WSGIApplication([
+  ('/', Homepage),
+],debug=True)
+
+:: app.yaml - app engine settings are specified in app.yaml
+runtime: python27
+api_version: 1
+thread_safe: true
+
+handlers:
+- url: /.*
+  script: my_first_app.app
+
+Mapping Url paths to static files and the request handlers
+
+
+dev_appserver.py ./
+runs on the preview mode. Preview on port 8080
+
+This can be edited, no re-deployment is needed. It will be immediately available.
+To deploy the newly created app, we use the following command
+
+gcloud app deploy app.yaml
+
+It will prompt us the select a region. Select a region from which you expect the maximum traffic. asia-northeast1
+So we deployed on gcloud. App Engine in Serverless, all of that is hidden for you. Gcloud will automatically scaleup the application as per the traffic.
+
+gcloud app logs tail -s default
+
+### Storage
+Persistent SSDs are abstractions for redundant data on multiple actual SSD disks
+Cloud Storage - Global Scope, persistent (Standard and SSD) - Zonal, Local SSD - Instance
+Local SSDs do not provide data redundancy, also have a limitation on what type of instances they can be used.
+In which of the following storage options will data persist only till the instance is stopped or deleted? - Local SSDs
+
+### Cluster Container
+Master Endpoint - Runs Kubernetes, Node Instance - Runs Kubeletes, Kubelets controls pods, pods contain individual docker containers.
+
+
+
+
+
 
 
 

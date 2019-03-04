@@ -195,5 +195,22 @@ The data we store in the bucket are called objects.
  - If we are not using the resource, or the bucket, simply delete it to avoid unnecessary costs
 
 
+Q - Let us suppose I want to make the data in the container public. How would we do that?
+
+## Assigning permissions to buckets and objects
+
+To share a particular object publicly, we can click on the share publicly radio button. Once the image has been made public,
+we can click on the public link, and that should give us a sharable link to the object.
+storage.googleapis.com/<name of the bucket>/<folder name>/<name of the object>
+
+To edit the permissions of a particular object, we could click on the 3 dots and click on edit permissions
+The permission can be given to a domain, a group or a individual user.
+Change entity to 'user' or 'group' as per your needs.
+We can also specify a domain name. Everyone from this domain will be able to read the document or own it completely.
+So to change the bucket permission, go back to the bucket browser, and click on the 3 dots on the very right.
+Click edit permissions, here you can simply specify a user or a domain, and assign roles to them, in the vid, the domain 
+loonytunes.com was assigned as a storage admin by us - owner of the bucket.
+We can assign similar roles to a user for the bucket, objects in the bucket take on their individual permissions.
+
 
 

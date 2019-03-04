@@ -115,3 +115,76 @@ any read/write operation would hit the same shard of data. We need to be careful
 Bigtable is Similar to HBase, somehow smarter than HBase.
 
 
+## Cloud Storage
+
+Create Buckets for data storage - names need to be globally unique, location and storage classes.
+Multi-regional - For frequently accessed data, that need to be accessed all over the world
+Regional - For frequently accessed data, that needs to be accessed from a specific location
+Nearline - For Hot data, we would wound up with a big bill
+Coldline - For Hot data, we would wound up with a big bill
+
+Multiregional - 
+1 .99.95 % availability and Geo-redundant
+2. For storing dynamic content like serving website content, streaming videos, or gaming and mobile applications
+3. $0.0026 per GB per Month
+4. Cloud storage stores the data in atleast two regions separated by atleast 100 miles within the multi-regional location of the bucket.
+5. Highest availability
+
+Regional Storage -
+1. 99.9% Availaibility
+2. Lower cost for GB
+3. Data stored in narrow geographic location
+4. Suitable for storing frequently accessed in the same region as your google cloud data proc, or google compute engine instances
+that use it, such as for data analytics
+5. $0.02 per GB per Month
+6. Better performance in data-intensive applications, rather than storing your data in multi-regional location
+
+Nearline Storage -
+1. 99% Availability
+2. Very low cost per GB per month, $0.01
+3. Data retrieval costs
+4. Higher-per operation cost
+5. 30-day minimum storage duration
+6. Data you want to access only once a month. for serving long-tail multi-media content, also good for backup, disaster recovery, and archival storage
+7. If you want to access it frequently, you will have to pay access charges
+
+Coldline Storage - 
+1. It basically has the same throughput and latency, i.e. not slower in any way.
+2. It is a 90-day minimum storage duration
+3. costs for data access
+4. Higher per-operation costs
+5. 99% availiability SLA
+6. For disaster recovery, and for data that may or may not be required in some future time
+7. per-operations
+
+How one works with cloud storage
+1. XML and JSON APIs
+2. command line gsutil
+3. gcp console
+4. client apis
+
+Domain Named Buckets - Discussed during the use case of Hosting a website
+gcp treats a bucket name as if they were a domain name, if they contain dots. So it must be a valid domain name.
+Must be a syntactically valid domain name/DNS
+For Eg - it should no contain a name that has more than one period in a row
+for eg www....dummybucket.com
+end with a currently recognised top level domain, i.e. .com
+pass domain ownership verification. The team member creating the bucket must be a domain owner or a domain manager.
+
+Domain Verification - 
+There are a number of ways to demostrate the ownership of a site or a webpage
+1. Adding special meta tag to the site's homepage
+2. Uploading a special file to the site
+3. viewing ownership for the domain through the search console
+
+Mobile level use-cases
+1. When you need storage for compute block storage, along with mobile sdk's. The mobile sdk's here are referred to the
+the api's that help with uploading and downloading of content, mostly user generated. Firebase provides an additional level of security while uploading and downloading user generated content. - Cloud Storage with Firebase
+For mobile developers.
+2. Firebase Realtime DB. Fast No SQL json based document database that helps with fast random access along with mobile sdks.
+Syncs data with all the clients in realtime, and is available even when your app goes offline.
+
+
+
+
+

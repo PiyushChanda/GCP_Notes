@@ -259,4 +259,62 @@ We will see how to ingest the data stored in the cloud storage, using a VM Engin
 
 All we did was run a program and copy it's output to Bucket. We deleted the instance. The data stored in the bucket as left unchanged as the data is not tied to the bucket.
 
+Transfer service
+1. Smart and automatically upload data to cloud storage
+2. S3 or aws
+3. Https
+4. local files
+5. from another storage bucket.
+gsutil can be used to upload data into the cloud storage bucket.
+
+We should prefer transfer service when,
+1. Prefer the transfer service when transferring from AWS etc.
+2. If copying files from on-premise, use gsutil
+
+We can set up recurring transfers and one-time transfers
+Delete from destination when they are not specified in source.
+Delete from source when copying over
+We can set up Periodic Synchronisation between source and the destination based on file filters.
+
+Block Storage - Presistent Disk or SSD
+File Storage - Immutable Blobs - Cloud Storage, Cloud Storage is also a replacement of HDFS for OLAP Applications, or data warehousing
+OLTP - Cloud SQL/Spanner for transaction processing support.
+NoSQL - Key-Values BigTable (~HBase for fast sequential scans) 
+
+Getting cloud storage - Transfer service
+
+BigTable - No Joins, DataStore - Cannot do operations accross tables. BigQuery - Relational Wrapper on distributed storage
+
+Migrating Data using the transfer service
+Q - How do I migrate my existing data from AWS, Rackspace or my local machine
+
+We create a bucket
+gsutil mb -c nearline -l us gs://loony-us-bucket-nearline
+here mb - make bucket
+-c specifies the class
+-l location of the bucket
+gsutil list -L -b gs://loony-us-bucket-nearline
+list - it lists all the buckets
+-L -> Gives us detailed information
+-b -> allows us to specify the bucket name instead of just listing all the buckets
+storage class of this bucket is nearline and is located in the us. Is currently empty
+gsutil ls gs://loony-us-bucket-nearline -> should return nothing
+
+
+Storage - To set up a tranfer service, simply go to the transfer tab.
+create transfer to create a new trasnfer - 
+1. Google bucket
+2. Aws bucket - we need a access key or the bucket could be read by anyone
+3. List of object urls.
+for local files, use gsutil
+
+The transfer job can run daily, or immediately.
+Once we click create the source files are picked up by the transfer service and are copied into the destination bucket
+We can choose to pause or cancel it completely by the two adjacent bucket.
+
+Since we chose to delete the files from the source bucket, the source bucket should be empty
+
+Lab: Cloud Storage ACLs and API access with service account
+
+Read Lecture Number - 33, 34, 35 thoroghly. Do it in the Google Page
 

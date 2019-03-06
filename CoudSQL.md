@@ -125,4 +125,71 @@ So the data is interleved, i.e. they are stored next to one another. Let us supp
 
 So, the data is physically stored in this interleved format similar to HBase, which enables fast scanning of sequential data.
 
+Q - Cloud Spanner has tremendous support for transaction processing. This makes even a single read call very slow, true or false?
+A - No this statement is false. There are two transaction modes, read only txns, gets priority, and executes very quickly. One off read call - This gives very light txn support, so the queries execute very quickly.
+ACID ++ -> Transaction will serialize in the order of their timestamps and those timestamps ar linked to the physical time which we can measure in a watch.
+
+Vulnerable to Hotspotting - Do not use monotonically increasing column as primary key, if you use it so then all the data will be stored in a single location somewhere. So it won't be able to use the power of distributed computing, and it wil kill your performance. Use hash keys in place of monotonically ordered keys. 
+- Writes will be on the same shard on the same location in some dist file system. Kill parallelism in cloud snapper. We need to make sure the reads and writes are distributed all over the range of key-values, we need to be careful while choosing the primary key. For ordered columns - use auto hash.
+
+So we change S_ID to some random alpha numeric data, that has very less chance of being monotonically increasing or decreasing.
+
+So the Cloud Spanner under the hood, should modify the interleved representation, and distribute the data over multiple locations, in the form of shards. These could lie in entirely diff storage unit. It will try to modify the internal representaion of the data, it will try to move the data around so that the reads and writes are evenly distributed.
+
+Splits - Logical groupings of data that can be moved independently of one another are called splits.
+
+for Cloud Spanner splits are imp. They are added to distribute high read-write data, and to break up hotspots. This is done on the basis of observing query or read/write patterns in the DB.
+
+So we also have splits that correspond to each value of the student id.
+
+Unlike HBase, tables can also have secondary indices.
+ - Might cause some data to be stored twice.
+
+Like HBase, we have a fast sequential scanning of data, and tables must have primary keys.
+
+We might want to create an index on some column that is already interleved with a primary key data. cloud spanner will create another copy that will serve as an index of the original interleved data, but this time on a different column.
+
+We can force a query to use a specific index using index directives - Force Query to use a specific index.
+
+We could force a column to be to be copied to a seconday index using a storing clause.
+
+So if we want the grades on the basis of courses, then we would require a parent-child relationship with the two tables.
+Course - Transcript. We would want to create a secondary index, and the data in these two tables will be interleved.
+
+So we will have another version of the data in the grades table, this time interleved with course table.
+
+So course table is stored twice.
+
+## Datatypes
+1. Schema is strongly typed.
+2. We have ARRAYs and STRUCTs
+3. Structs are not okay in tables, unless a query returns array of arrays in the form of structs
+4. Arrays are okay in tables, but array of array are not.
+Cloud spanner is blurring the line between rdbms and big data technologies.
+
+## Transaction Support
+1. Serializability - Transactions which are interleved will commit in some serializable order
+2. Transaction support is stronger than traditional ACID
+ - Transaction commit in an order reflected in their commit timestamps.
+ - These commit timestamps are realtime, hence you can compare them in your watch
+3. The transactions are going to commit in the order of their commit timestamps.
+
+### Transaction Modes
+Locking Read/Write - Slow
+Read only - Fast
+If making one-off reads - "Single Cell Reads" - Fastest, no transaction checks at all.
+
+## Staleness
+We can set timestamp bounds on your queries/transactions.
+ - Strong - Read latest data, to get the latest data
+ - Bounded Staleness - "Read verson no later than <timestamp>...", we are providing the level of staleness that we are okay with
+ - Exact Staleness - "Reads data at a particular <timestamp>..." we can use this to read the values with the past/future timestamps.
+
+Q - Recommended no of nodes for Cloud Spanner for Prod?
+A - 3 nodes for production environment
+Instance Id is permanent and will be used to identify the spanner instance.
+
+We can create an instance/database/table easily using the console. During creation of tables, we can specify the inteleving - Parent Child realtionship between the tables. The query to do so is written in spanner sql, which is slightly different from mysql. The cloud console offers insights on how to create the tables/interleving/primary keys etc.
+
+
 

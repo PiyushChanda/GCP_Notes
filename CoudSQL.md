@@ -75,4 +75,54 @@ and it has to do it again.
 
 gcloud beta sql connect test-sql --user=root
 It whitelists your ip temporarily, and asks for your password before the connections.
+Redo the Labs from the Lectures
+
+So we saw how we can create tables using the mysql file residing in your cloud storage, and also load the csv files from the Cloud Storage as well.
+
+Q - What is Horizontal Scaling, and what GCP Platform offers it?
+A - Horizontal scaling involves the adding of additional instance to increase the capacity of the software, without increase the available resources to the single machine. Opposite of this is vertical scaling where we increase the resources in a particular machine, which was the case in a traditional database - Monolithic Computing in which we would need to add memory/disk space to a single computer. Horizontal Scaling makes use of distributed computing. GCP adds server capacity/instance automatically when required.
+
+## Cloud Spanner
+Is another transaction storage option, google proprietory, horizontal scaling, add more node instances to get increased performance.
+
+We use this to get
+1. High availability
+2. High Transaction Support ACID++, and strong consistency
+3. Transactional reads and writes, especially writes.
+
+Don't use if you don't need the transactional support and if your data cannot be represented in a relational format/not well structured/we want to use open source. If we don't require the strongest write consistency.
+
+It contains tables as usual, it looks relational - rows, columns, strongly typed schemas.
+But ...
+
+Okay so suppose we have two tables
+Student
+###### S_ID, S_Name
+1, A
+2, B
+3, C
+
+and a Transcript
+###### S_ID, C_ID, C_Name, Grade
+1, 1, Aa, A+
+2, 2, Bb, S+
+3, 3, Cc, B-
+
+So the data is interleved, i.e. they are stored next to one another. Let us suppose most of our queries require the data base to fetch the transcript of the student. So we assign a parent, here Student is a parent, and Transcript which is the child. So the primary keys are taken and the data is interleved. Every row from the student table will be followed by all of the rows of the child table which have the same primary key value. We can have upto 7 levels nested Parent Child Relationship. This causes access to be very fast. If we want all the data for a particular id of student data, all of that data are going to apprear together in the disk. So we made the Transcript table a child of the Student table. Data locality was enforced between the two seemingly separate tables. Must have a primary key. We are causing the parent primary key to prefix the primary key of the child. Rows are sorted on the basis of their asc order. child rows are inserted in between the parent rows. So all the values related to parent primary key can be easliy picked off, by using a scan. It is almost HBase like.
+
+###### S_ID, S_Name
+1, A
+###### S_ID, C_ID, C_Name, Grade
+1, 1, Aa, A+
+###### S_ID, S_Name
+2, B
+###### S_ID, C_ID, C_Name, Grade
+2, 2, Bb, S+
+###### S_ID, S_Name
+3, C
+###### S_ID, C_ID, C_Name, Grade
+3, 3, Cc, B-
+
+So, the data is physically stored in this interleved format similar to HBase, which enables fast scanning of sequential data.
+
 

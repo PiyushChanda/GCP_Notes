@@ -191,13 +191,65 @@ User for
 
 Like Cloud Spanner
 1. Data is stored in Lex order of keys
-2. Data is shared based on those key values
+2. Data is sharded based on those key values
 
 So performance will be poor if,
-1. Writes/Reads are concentrated on ssome ranges
+1. Writes/Reads are concentrated on some ranges of the key values.
 2. for instance key-values are sequential
 
 We can hash the key-values in cloud spanner and non-sequential keys.
 
 Avoid Hotspots
-1. Field Promotion - Structured Key - Arranged in reverse url order
+1. Field Promotion - Structured Key - Arranged in reverse url order. So that the names become similar in the front, and different in the end. So related data items are stored nearby. If the sequential scans are based on some value of the key-prefix, then all the related data items are picked up at one go. Pretty standard way.
+2. Salting - Hashing the key value, like Spanner
+
+Warming the cache
+1. Big Table or HBase will try to improve the performace over time. It observes the read and write patterns of the data, and re-distributes them so that shards are evenly hit. This is more prominent in BigTable than HBase, roughly store equal amount of data in every shard. Testing of performace should be done over a long time, hours instead of minutes to allow HBase or BigTable to move data around, so as to eliminate hotspots.
+2. Otherwise we would get misleadingly poor performance.
+
+SSD or HHD - Use SSD, if you don't have a very limiting budget
+SSD are 20x faster than hard disks, for individual row reads, it is less fast when we consider batch reads/sequential scans
+SSDs are more predictable in terms of their throughput, and this gives bigtable to correctly optmise the data distrbution. If like HDD, the performance is variable, that could through the calculations of BigTable off for a spin.
+
+So HDD is better when,
+1. Data size is greater than 10 TB
+2. And you mostly run all batch queries
+
+The more random access you perform on your big table, the better it is to go for an SSD
+** If all of your queries is of random access nature then BigTable is not even the tool for you, you should go for the document database.
+
+Reasons for its poor performace,
+1. Schema Design - Sequential Keys, causing reads/writes in the same physical location
+2. Inappropriate workloads - 
+  Data Size too small < 300 GB, it should be > 1 TB
+3. Queries run in short bursts, when it actually takes hours to tune performance internally.
+4. Cluster too small
+5. Cluster Just been fired up/scaled up - So Big Table would require some time to tune it's performance based on newly available resources
+6. HDD or SSDs
+7. Development Vs Production - Performance particularly great in Production than in development
+
+Schema Design - 
+1. You have only one index - the row key, choose it wisely. You don't have the luxury to have multiple indexes likes of which are present in Datastore and Cloud Spanner
+2. Row keys are sorted lexicographically
+3. Acid on row level, Multi row changes are not Atomic
+4. Related Entities are present in Adjacent rows, realy fast sequential scanning
+
+Row Key choices
+1. Reverse domain names
+2. Strings are better too because they hash evenly
+3. Timestamps but only as suffixes, as in prefix they become sequentially increasing keys causing hotspotting
+
+Row Key to avoid
+1. Domain names - common portions comes at the end of the row key, and so the adjacent values won't be logically related
+2. sequential numeric values
+3. Timestamps alone/prefixed by Timestamp
+4. Fields that are to be changed repeatedly are not suitable as a row key, Ideally they should be immutable
+
+Limitation -
+Row Key: 4KB per key value
+Column Families per table should be less than 100
+Individual Column values should not exceed about 10 MB in size
+Total Row Size - should not exceed about 100 MB
+
+Use the GCP Cloud - Lecture 53
+

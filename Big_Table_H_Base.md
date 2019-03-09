@@ -253,3 +253,34 @@ Total Row Size - should not exceed about 100 MB
 
 Use the GCP Cloud - Lecture 53
 
+Q - What are the two operations that are very low latency in BigTable?
+A - Very fast lookup operations on row keys. Row Keys are used as index of the table, with very fast scan operations. Range of row-keys can be looked up very quickly.
+
+WE need to create a Big Table instance First
+Prod - Available, min 3 nodes, cannot be upgraded
+Deve - For playing around, not highly available, can be upgraded
+We use hbase shell to work with BigTable
+
+ hbase> 
+ 
+ gcloud beta bigtable instances list
+ 
+ ./quickstart.sh
+ Picks up one bigtable instance from your project.
+ You have to be authenticated and logged in with default project having BigTable instance
+ 
+  hbase> list -- to get the tables in BigTable
+  hbase> create 'students', 'personal' -- to create a students table with person column family
+  hbase> -- all columns are logically grouped into column families
+  hbase> -- each table should have atleast one column family
+  hbase> list -- should show the students table
+  hbase> put 'students', '12345', 'personal:name', 'John' -- This will insert into students table, with a row key value of 12345 and the value of the 'name' column of 'personal' column family is 'John'
+  hbase> -- row key is important for every row, this enables very fast scan of rows over a range of values of row-keys
+  hbase> -- columnFamily:columnName
+  hbase> put 'student', '12345', 'personal:State', 'Emily' -- row key should be unique
+  hbase> scan students -- prints the table
+  hbase> -- row keys are printed twice because there are two columns worth of information
+  hbase> -- for every row, we can see the name of the column family and name of the column. They are assossiated with timestamps which forms the performing information
+  hbase> disable 'students'
+  hbase> drop 'students' -- deletes the table
+  
